@@ -1,4 +1,4 @@
-package com.base.foundation.verify.token;
+package com.foundation.base.verify.token;
 
 import java.util.Random;
 
