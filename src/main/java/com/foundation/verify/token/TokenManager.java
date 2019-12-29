@@ -1,4 +1,4 @@
-package com.foundation.base.verify.token;
+package com.foundation.verify.token;
 
 import java.util.Random;
 
@@ -177,7 +177,7 @@ public class TokenManager {
         char l = (char) (random.nextInt(26)+97); //小写字母ascii范围97-122
         return String.valueOf(l);
     }
-    
+
 
 
 

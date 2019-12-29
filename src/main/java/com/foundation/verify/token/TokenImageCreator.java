@@ -1,4 +1,4 @@
-package com.foundation.base.verify.token;
+package com.foundation.verify.token;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
