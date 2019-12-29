@@ -43,11 +43,13 @@ public class TokenImageCreator {
 
 
     public TokenImageCreator() {
-        setWidth(160);
-        setHeight(70);
-        setFontSize(this.height>>1);
-        setLineNum(3);
-        setBackgroundColor("230,230,250");
+        this.width = 160;
+        this.height = 70;
+        this.fontSize = this.height>>1;
+        this.lineNum = 3;
+        this.red = 230;
+        this.green = 230;
+        this.blue = 250;
     }
 
 
@@ -127,7 +129,7 @@ public class TokenImageCreator {
      * 绘制干扰线
      * @param graphics
      */
-    public void drawInterferenceLine(Graphics2D graphics) {
+    private void drawInterferenceLine(Graphics2D graphics) {
 
         //绘制30条随机干扰线
         for (int i=0; i<this.lineNum; i++){
@@ -146,7 +148,7 @@ public class TokenImageCreator {
      * 返回随机颜色
      * @return color
      */
-    public Color getRandomColor(){
+    private Color getRandomColor(){
         int red = Math.abs( (100 - this.red) + random.nextInt(155) );
         int green = Math.abs( (100 - this.green) + random.nextInt(155) );
         int blue = Math.abs( (100 - this.blue) + random.nextInt(155) );
@@ -159,7 +161,7 @@ public class TokenImageCreator {
      * 返回随机字体
      * @return font
      */
-    public Font getRandomFont(){
+    private Font getRandomFont(){
         return new Font(fontFamily[random.nextInt(fontFamily.length)], fontStyle[random.nextInt(fontStyle.length)], this.fontSize);
     }
 

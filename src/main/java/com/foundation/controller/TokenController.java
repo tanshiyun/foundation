@@ -4,7 +4,6 @@ import com.foundation.verify.token.TokenImageCreator;
 import com.foundation.verify.token.TokenManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,10 +21,13 @@ public class TokenController {
 
     private final Logger logger = LoggerFactory.getLogger(TokenController.class);
 
-    @Autowired
-    private TokenManager tokenManager;
-    @Autowired
-    private TokenImageCreator imageCreator;
+    private final TokenManager tokenManager;
+    private final TokenImageCreator imageCreator;
+
+    public TokenController(TokenManager tokenManager, TokenImageCreator imageCreator) {
+        this.tokenManager = tokenManager;
+        this.imageCreator = imageCreator;
+    }
 
 
     @RequestMapping("/genImg.do")
