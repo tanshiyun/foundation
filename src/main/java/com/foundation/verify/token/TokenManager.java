@@ -1,5 +1,7 @@
 package com.foundation.verify.token;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Random;
 
 /**
@@ -8,6 +10,7 @@ import java.util.Random;
  * @Author tsy20
  * @Date 2019/12/28
  **/
+@Component
 public class TokenManager {
 
     private int tokenLength; //随机码长度

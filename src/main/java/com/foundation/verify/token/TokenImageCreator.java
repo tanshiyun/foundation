@@ -1,10 +1,15 @@
 package com.foundation.verify.token;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.Random;
 
 /**
@@ -13,13 +18,18 @@ import java.util.Random;
  * @Author tsy20
  * @Date 2019/12/28
  **/
+
+@Component
 public class TokenImageCreator {
+
+    private final Logger logger = LoggerFactory.getLogger(TokenImageCreator.class);
 
     private int width; //图片宽度
     private int height; //图片高度
     private int fontSize; //验证码字体大小
-    private String backgroundColor; //图片背景色
+    private int lineNum; //干扰线条数
 
+    //背景色参数
     private int red;
     private int green;
     private int blue;
@@ -35,9 +45,24 @@ public class TokenImageCreator {
     public TokenImageCreator() {
         setWidth(160);
         setHeight(70);
-        setFontSize(this.height/2);
+        setFontSize(this.height>>1);
+        setLineNum(3);
         setBackgroundColor("230,230,250");
     }
+
+
+    /**
+     * 返回图片的base64编码
+     * @return String
+     */
+    public String createBase64Image(String content) {
+        StringBuilder source = new StringBuilder("data:image/jpeg;base64,");
+        Base64.Encoder encoder = Base64.getEncoder();
+        String base64 = encoder.encodeToString(generateImageSource(content));
+        source.append(base64);
+        return source.toString();
+    }
+
 
 
     /**
@@ -45,7 +70,7 @@ public class TokenImageCreator {
      * @param content 图片内容
      * @return 返回图片字节数组
      */
-    public byte[] createImage(String content) {
+    public byte[] generateImageSource(String content) {
         BufferedImage image = new BufferedImage(this.width, this.height, 1);
 
         Graphics2D graphics = image.createGraphics();
@@ -55,10 +80,15 @@ public class TokenImageCreator {
         graphics.fillRect(0, 0, this.width, this.height);
 
         //计算字符绘制坐标
-        int baseX = (this.width % content.length())/2;
-        int baseY = (this.height - this.fontSize)/2 + this.fontSize;
+        int baseX = (this.width % content.length())>>1;
+
+        int offsetY = (this.height - this.fontSize)>>2;
+        int baseY = offsetY + this.fontSize;
 
         int step = this.width / content.length();
+
+        //绘制背景干扰线
+        drawInterferenceLine(graphics);
 
         //绘制验证码字符
         for(int i=0; i<content.length(); i++){
@@ -69,17 +99,20 @@ public class TokenImageCreator {
             graphics.drawString(String.valueOf(content.charAt(i)), baseX+i*step, baseY);
         }
 
+        //绘制前景干扰线
+        drawInterferenceLine(graphics);
+
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
         try {
-            ImageIO.write(image, "png", out);
+            ImageIO.write(image, "jpeg", out);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Create token image failed", e);
         }finally {
             try {
                 out.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error("close output stream(ByteArrayOutputStream) failed", e);
             }
         }
 
@@ -91,13 +124,32 @@ public class TokenImageCreator {
 
 
     /**
+     * 绘制干扰线
+     * @param graphics
+     */
+    public void drawInterferenceLine(Graphics2D graphics) {
+
+        //绘制30条随机干扰线
+        for (int i=0; i<this.lineNum; i++){
+            graphics.setColor(getRandomColor());
+            graphics.setFont(getRandomFont());
+
+            int offsetX = this.width>>1;
+            graphics.drawLine(random.nextInt(offsetX), random.nextInt(this.height), random.nextInt(offsetX)+offsetX, random.nextInt(this.height));
+        }
+
+    }
+
+
+
+    /**
      * 返回随机颜色
      * @return color
      */
     public Color getRandomColor(){
-        int red = (100-this.red)+random.nextInt(155);
-        int green = (100-this.green)+random.nextInt(155);
-        int blue = (100-this.blue)+random.nextInt(155);
+        int red = Math.abs( (100 - this.red) + random.nextInt(155) );
+        int green = Math.abs( (100 - this.green) + random.nextInt(155) );
+        int blue = Math.abs( (100 - this.blue) + random.nextInt(155) );
         return new Color(red,green,blue);
     }
 
@@ -108,7 +160,7 @@ public class TokenImageCreator {
      * @return font
      */
     public Font getRandomFont(){
-        return new Font(fontFamily[random.nextInt(fontFamily.length)], fontStyle[random.nextInt(fontStyle.length)], fontSize);
+        return new Font(fontFamily[random.nextInt(fontFamily.length)], fontStyle[random.nextInt(fontStyle.length)], this.fontSize);
     }
 
 
@@ -125,8 +177,10 @@ public class TokenImageCreator {
         this.fontSize = fontSize;
     }
 
+    public void setLineNum(int lineNum) { this.lineNum = lineNum; }
+
     public void setBackgroundColor(String backgroundColor) {
-        this.backgroundColor = backgroundColor;
+        //图片背景色
         String[] colorParam = backgroundColor.split(",");
 
         this.red = Integer.parseInt(colorParam[0]);
