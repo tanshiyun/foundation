@@ -153,9 +153,9 @@ public class TokenManager {
 
     /**
      * 返回随机0-9整数
-     * @return
+     * @return String
      */
-    public String getRandomNum(){
+    private String getRandomNum(){
         return String.valueOf(random.nextInt(10));
     }
 
@@ -163,9 +163,9 @@ public class TokenManager {
 
     /**
      * 返回随机大写字母
-     * @return
+     * @return String
      */
-    public String getRandomUpper(){
+    private String getRandomUpper(){
         char u = (char) (random.nextInt(26)+65); //大写字母ascii范围65-90
         return String.valueOf(u);
     }
@@ -174,9 +174,9 @@ public class TokenManager {
 
     /**
      * 返回随机小写字母
-     * @return
+     * @return String
      */
-    public String getRandomLower(){
+    private String getRandomLower(){
         char l = (char) (random.nextInt(26)+97); //小写字母ascii范围97-122
         return String.valueOf(l);
     }
