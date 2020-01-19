@@ -1,4 +1,4 @@
-package com.foundation.controller;
+package com.foundation.controller.token;
 
 import com.foundation.verify.token.TokenImageCreator;
 import com.foundation.verify.token.TokenManager;
