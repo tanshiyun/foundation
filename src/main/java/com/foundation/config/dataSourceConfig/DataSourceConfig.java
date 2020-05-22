@@ -1,4 +1,4 @@
-package com.foundation.config;
+package com.foundation.config.dataSourceConfig;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -10,7 +10,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import javax.sql.DataSource;
@@ -33,12 +32,11 @@ public class DataSourceConfig {
 
     @Bean("sqlSessionFactory")
     public SqlSessionFactory sqlSessionFactory(@Qualifier("dataSource") DataSource dataSource,
-                                               @Value("${mybatis.config-location}") String configLocation,
-                                               @Value("${mybatis.mapper-locations}") String mapperLocations) throws Exception {
+                                               @Value("${mybatis.config-location}") String configLocation) throws Exception {
         SqlSessionFactoryBean sessionFactoryBean = new SqlSessionFactoryBean();
         sessionFactoryBean.setDataSource(dataSource);
         sessionFactoryBean.setConfigLocation(new PathMatchingResourcePatternResolver().getResource(configLocation));
-        sessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(mapperLocations));
+//        sessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(mapperLocations));
         return sessionFactoryBean.getObject();
     }
 

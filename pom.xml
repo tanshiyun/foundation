@@ -16,6 +16,8 @@
 
     <properties>
         <java.version>1.8</java.version>
+<!--        <thymeleaf.version>3.0.2.RELEASE</thymeleaf.version>
+        <thymeleaf-layout-dialect>2.1.1</thymeleaf-layout-dialect>-->
     </properties>
 
     <dependencies>
@@ -49,8 +51,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

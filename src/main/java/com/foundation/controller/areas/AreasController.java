@@ -1,12 +1,7 @@
 package com.foundation.controller.areas;
 
-import com.foundation.dao.mapper.AreasMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * @ClassName AreasController
@@ -15,14 +10,11 @@ import java.util.Map;
  * @Date 2020/1/19
  **/
 
-@RestController
+@Controller
 public class AreasController {
 
-    @Autowired
-    private AreasMapper areasMapper;
-
-    @GetMapping("/topAreas")
-    public List<Map<String,String>> getTopAreas(){
-        return this.areasMapper.getTopAreas();
+    @GetMapping("/index.do")
+    public String index(){
+        return "index";
     }
 }
