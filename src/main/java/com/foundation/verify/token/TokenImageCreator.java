@@ -13,10 +13,10 @@ import java.util.Base64;
 import java.util.Random;
 
 /**
- * @ClassName TokenImageCreator
- * @Description 图形验证码生成类
- * @Author tsy20
- * @Date 2019/12/28
+ * @className TokenImageCreator
+ * @description 图形验证码生成类
+ * @author tsy20
+ * @date 2019/12/28
  **/
 
 @Component
