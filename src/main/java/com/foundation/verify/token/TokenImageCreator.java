@@ -34,12 +34,12 @@ public class TokenImageCreator {
     private int green;
     private int blue;
 
-    private Random random = new Random();
+    private final Random random = new Random();
 
     //字体数组
-    private String[] fontFamily = {"Lucida Calligraphy", "Consolas", "Bell MT", "Ink Free", "Segoe Print"};
+    private final String[] fontFamily = {"Lucida Calligraphy", "Consolas", "Bell MT", "Ink Free", "Segoe Print"};
     //字体样式数组
-    private int[] fontStyle = {Font.ITALIC+Font.BOLD, Font.PLAIN, Font.ITALIC, Font.BOLD};
+    private final int[] fontStyle = {Font.ITALIC+Font.BOLD, Font.PLAIN, Font.ITALIC, Font.BOLD};
 
 
     public TokenImageCreator() {

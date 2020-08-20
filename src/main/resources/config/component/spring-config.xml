@@ -3,8 +3,12 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <bean id="baseDao" class="com.foundation.component.TransactionManager">
+        <property name="transactionManager" ref="transactionManager" />
+        <property name="isolation" value="${foundation.transaction.isolation}" />
+        <property name="propagation" value="${foundation.transaction.propagation}" />
+    </bean>
 
-
-
+    <bean id="areasController" class="com.foundation.controller.areas.AreasController" parent="baseDao"/>
 
 </beans>

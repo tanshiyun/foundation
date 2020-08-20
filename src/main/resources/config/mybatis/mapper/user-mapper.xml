@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.foundation.dao.mapper.UserMapper">
+
+    <select id="getTopAreas" resultType="HashMap">
+        SELECT id,name FROM areas_division where id=parentid
+    </select>
+
+    <insert id="addUser" parameterType="User">
+        INSERT INTO foundation_user (user_id,user_name,mobileno) values (#{userId},#{userName},#{mobileNo})
+    </insert>
+
+</mapper>

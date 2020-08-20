@@ -1,10 +1,11 @@
 package com.foundation.controller.areas;
 
+import com.foundation.component.BaseController;
+import com.foundation.core.entity.User;
+import com.foundation.dao.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @ClassName AreasController
@@ -12,14 +13,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @Author tsy20
  * @Date 2020/1/19
  **/
-
 @Controller
-public class AreasController {
+public class AreasController extends BaseController {
 
+    @Autowired
+    private UserMapper userMapper;
 
     @GetMapping("/index.do")
     public String index(){
         return "index";
     }
 
+
+    @PostMapping("/userAdd.do")
+    @ResponseBody
+    public int test(User user){
+        super.beginTransaction();
+        int i = userMapper.addUser(user);
+        super.commit();
+        return i;
+    }
 }
