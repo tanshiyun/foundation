@@ -21,9 +21,13 @@ public class AreasController extends BaseController {
 
     @GetMapping("/index.do")
     public String index(){
-        return "index";
+        return "html/index";
     }
 
+    @GetMapping("/jspIndex.do")
+    public String jspIndex(){
+        return "jsp/index";
+    }
 
     @PostMapping("/userAdd.do")
     @ResponseBody
