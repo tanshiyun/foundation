@@ -1,0 +1,35 @@
+<configuration status="OFF" monitorInterval="30">
+    <Properties>
+        <Property name="appName">foundation</Property>
+        <Property name="logPath">/logs/${appName}</Property>
+        <Property name="pattern">[%-5level] %d{yyyy-MM-dd HH:mm:ss} [${appName}] [%thread] %c [message] %msg%n</Property>
+    </Properties>
+    <Appenders>
+        <!--设置在控制台打印日志-->
+        <Console name="CONSOLE" target="SYSTEM_OUT">
+            <PatternLayout pattern="${pattern}"/>
+        </Console>
+
+        <File name="FILE" fileName="${logPath}.log" >
+            <PatternLayout pattern="${pattern}"/>
+        </File>
+
+        <RollingRandomAccessFile name="RollingFILE" immediateFlush="false" fileName="${logPath}/${appName}.log" filePattern="${logPath}/%d{yyyy-MM-dd}/${appName}-%d{yyyyMMddHHmm}.log">
+            <PatternLayout pattern="${pattern}"/>
+            <Policies>
+                <!-- 按天生成日志文件-->
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+            <!-- 最多保存日志文件的数目 -->
+            <DefaultRolloverStrategy max="15"/>
+        </RollingRandomAccessFile>
+    </Appenders>
+    <Loggers>
+        <!--记录druid-sql的记录-->
+        <logger name="druid.sql.Statement" level="debug" additivity="false" />
+
+        <Root level="INFO">
+            <AppenderRef ref="CONSOLE"/>
+        </Root>
+    </Loggers>
+</configuration>

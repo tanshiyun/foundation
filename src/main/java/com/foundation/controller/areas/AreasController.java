@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
  * @Author tsy20
  * @Date 2020/1/19
  **/
-@Controller
 public class AreasController extends BaseController {
 
     @Autowired
