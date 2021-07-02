@@ -13,19 +13,15 @@ import org.springframework.web.bind.annotation.*;
  * @Author tsy20
  * @Date 2020/1/19
  **/
+@Controller
 public class AreasController extends BaseController {
 
     @Autowired
     private UserMapper userMapper;
 
-    @GetMapping("/index.do")
+    @GetMapping({"/index.do","/"})
     public String index(){
         return "html/index";
-    }
-
-    @GetMapping("/jspIndex.do")
-    public String jspIndex(){
-        return "jsp/index";
     }
 
     @PostMapping("/userAdd.do")

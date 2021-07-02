@@ -1,4 +1,4 @@
-package com.foundation.config.dataSourceConfig;
+package com.foundation.config.datasource;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.foundation.component.TransactionManager;
