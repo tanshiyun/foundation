@@ -2,13 +2,13 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.foundation.dao.mapper.UserMapper">
+<mapper namespace="com.foundation.mapper.UserMapper">
 
     <select id="getTopAreas" resultType="HashMap">
         SELECT id,name FROM areas_division where id=parentid
     </select>
 
-    <insert id="addUser" parameterType="com.foundation.core.entity.User">
+    <insert id="addUser" parameterType="com.foundation.entity.User">
         INSERT INTO foundation_user (user_id,user_name,mobileno) values (#{userId},#{userName},#{mobileNo})
     </insert>
 

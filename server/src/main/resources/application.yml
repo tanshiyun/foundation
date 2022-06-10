@@ -1,0 +1,115 @@
+server:
+  port: 8080
+  tomcat:
+    accesslog:
+      buffered: true
+      directory: /logs
+      enabled: true
+      encoding: UTF-8
+      pattern: combined
+      prefix: ${spring.application.name}-access
+      rename-on-rotate: true
+      request-attributes-enabled: false
+      suffix: .log
+
+spring:
+  application:
+    name: foundation
+  jpa:
+    database: POSTGRESQL
+    open-in-view: false # 在视图渲染期间执行数据库查询
+    show-sql: false # 配置是否将执行的 SQL 输出到日志
+    properties:
+      hibernate:
+        hbm2ddl:
+          # 配置开启自动更新表结构
+          auto: update
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:foundation}?characterEncoding=UTF-8&stringtype=unspecified
+    username: ${POSTGRES_USERNAME:root}
+    password: ${POSTGRES_PASSWORD:root}
+    druid:
+      max-active: 5 # 最大连接池数量
+      min-idle: 2 # 最小连接池数量
+      max-wait: 1000 # 获取连接最大等待时间
+      min-evictable-idle-time-millis: 300000 # 空闲连接存活时间
+      keep-alive: true
+      keep-alive-between-time-millis: 300000 # keep-alive操作时间间隔
+      pool-prepared-statements: false # 是否缓存prepareStatement, 官方建议MySQL下建议关闭
+      max-pool-prepared-statement-per-connection-size: 20
+      test-on-borrow: true # 申请连接时检查连接是否有效
+      test-on-return: false # 归还连接时检查连接是否有效
+      test-while-idle: true # 连接空闲时检查是否有效
+      time-between-eviction-runs-millis: 60000 # 连接检查时间间隔
+      use-unfair-lock: true # 使用非公平锁
+      validation-query: null # 数据库检活sql
+      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计, wall用于防火墙, log4j2为你自己使用的日志，如果是log4j就写log4j,我这里用的log4j2
+      filters: stat,wall,log4j2
+      filter:
+        stat:
+          enabled: true # 开启 SQL 监控
+          merge-sql: true
+          slow-sql-millis: 5000 # 慢查询
+          log-slow-sql: true # 记录慢查询 SQL
+        wall:
+          enabled: true # 开启防火墙
+          config:
+            update-allow: true # 允许更新操作
+            drop-table-allow: true # 禁止删表操作
+            insert-allow: true # 允许插入操作
+            delete-allow: true # 删除数据操作
+        log4j2:
+          enabled: true
+          connection-log-enabled: true # 所有连接相关的日志
+          result-set-log-enabled: false # 是否显示结果集
+          statement-log-enabled: false # 所有Statement相关的日志
+          statement-log-error-enabled: true
+          statement-executable-sql-log-enable: false # 否显示SQL语句
+      # 3.基础监控配置
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+        # 设置不统计哪些URL
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+        session-stat-enable: true
+        session-stat-max-count: 100
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        reset-enable: true
+        # 设置监控页面的登录名和密码
+        login-username: admin
+        login-password: admin
+        allow: 127.0.0.1
+        deny: 0.0.0.0
+  web:
+    resources:
+      static-locations: classpath:/static/
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+    view-names: html/*
+  freemarker:
+    cache: false #缓存配置
+    charset: UTF-8 #编码格式
+    content-type: text/html
+    request-context-attribute: req  #req访问request
+    suffix: .ftl  #后缀名
+    enabled: true
+    template-loader-path: classpath:/templates/ #模板加载路径 按需配置
+    view-names: ftl/*
+    settings:
+      number_format: '0.####'   #数字格式化，无小数点
+
+foundation:
+  transaction:
+    isolation: ISOLATION_READ_COMMITTED
+    propagation: PROPAGATION_REQUIRED
+
+mybatis:
+  config-location: classpath:/config/mybatis/mybatis-config.xml
+#  mapper-locations: classpath:config/mybatis/mapper/*.xml
+  type-aliases-package: com.foundation.entity

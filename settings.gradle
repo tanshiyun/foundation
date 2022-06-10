@@ -3,3 +3,6 @@
  */
 
 rootProject.name = 'foundation'
+include 'server'
+include 'auth-service'
+
