@@ -818,14 +818,3 @@ buildNumber.properties
 
 ### Gradle ###
 .gradle/
-
-!trade-bitemp-model/lib/
-!trade-bitemp-model/lib/*
-
-trade-bitemp-model/src/main/generated/*
-install/*
-servers/zuul-server/src/main/resources/static/*
-
-#gradle wrapper
-!gradle/wrapper/gradle-wrapper.ja
-/install/
