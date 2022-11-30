@@ -59,6 +59,10 @@ subprojects {
 
         implementation group: 'com.alibaba', name: 'druid-spring-boot-starter', version: '1.2.8'
         implementation group: 'org.postgresql', name: 'postgresql', version: '42.3.3'
+        implementation group: 'cn.afterturn', name: 'easypoi-base', version: '4.4.0'
+        implementation group: 'cn.afterturn', name: 'easypoi-annotation', version: '4.4.0'
+        implementation group: 'cn.afterturn', name: 'easypoi-web', version: '4.4.0'
+
         // mapstruct
         implementation "org.mapstruct:mapstruct:${mapStructVersion}"
         annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"

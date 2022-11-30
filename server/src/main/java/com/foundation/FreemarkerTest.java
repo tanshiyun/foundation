@@ -14,9 +14,9 @@ import javax.mail.internet.*;
 
 public class FreemarkerTest {
 
-    private static final String TEMPLATE_PATH = "C:/Users/tanshiyun/Desktop/template/";
-    private static final String OUTPUT_PATH = "C:/Users/tanshiyun/Desktop/template/eml/";
-    private static final String TEMPLATE_NAME = "邮件发送模板-结算通知书正文-互换";
+    private static final String TEMPLATE_PATH = "E:/需求/邮件正文模板/template/互换模板/";
+    private static final String OUTPUT_PATH = "E:/需求/邮件正文模板/template/互换模板/eml/";
+    private static final String TEMPLATE_NAME = "邮件发送模板-结算通知书正文-互换-20220808";
 
 
     public static void main(String[] args) {
@@ -33,7 +33,7 @@ public class FreemarkerTest {
             // step4 渲染
             template.process(dataMap, out);
             generateEmail(out.toString());
-            System.out.println(">>>>>>>>文件创建成功");
+            System.out.println(">>>>>>>>文件创建成功" + LocalDate.now().toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,7 +57,7 @@ public class FreemarkerTest {
         product.put("settlementDate", LocalDate.of(2022, 6,14));
 
         tradeDTO.put("counterpartyName", "平安银行");
-        tradeDTO.put("departmentName", "资管");
+        tradeDTO.put("department", "资管");
         tradeDTO.put("displayTradeCurrency", "HKD");
         tradeDTO.put("displaySettlementCurrency", "CNY");
         tradeDTO.put("crossBorder", "compo1");
@@ -69,8 +69,8 @@ public class FreemarkerTest {
         Map<String, Object> eventDTO = new HashMap<>();
         eventDTO.put("eventType", LCMEventTypeEnum.UNWIND);
         eventDTO.put("eventId", "1467762486362124336");
-        eventDTO.put("eventConfirmationId", "SWHY-2422003-22002-01");
-        eventDTO.put("eventDate", LocalDate.of(2022, 6,16));
+        eventDTO.put("unwindConfirmationId", "SWHY-2422003-22002-01");
+        eventDTO.put("unwindDate", LocalDate.of(2022, 6,16));
         eventDTO.put("paymentDate", LocalDate.of(2022, 6,15));
         eventDTO.put("paymentMethod", "DIRECT_PAY");
         eventDTO.put("settleNotionalAmount", new BigDecimal("1000.123"));
@@ -89,6 +89,7 @@ public class FreemarkerTest {
         dataMap.put("emailDTOs", emailDTOs);
         dataMap.put("today", "2022-06-14");
         dataMap.put("sendTime", "2022");
+        dataMap.put("emailSendSucceed", true);
 
         return dataMap;
     }
@@ -99,6 +100,7 @@ public class FreemarkerTest {
         Map<String, Object> swapContract = new HashMap<>();
         Map<String, Object> swapSettle = new HashMap<>();
         Map<String, Object> trade = new HashMap<>();
+        Map<String, Object> swapTrade = new HashMap<>();
 
         party.put("partyName", "千合资本-昀锦3号");
         party.put("departmentName", "私募证券投资基金");
@@ -111,9 +113,11 @@ public class FreemarkerTest {
         trade.put("effectiveDate", LocalDate.of(2022, 6,17));
         trade.put("initExchangeRate", new BigDecimal("1.1234"));
 
+        swapTrade.put("swapInterestDirection", SwapDirection.PAY);
+
         swapSettle.put("lcmEventType", "到期结算");
         swapSettle.put("lcmNoticeBookNum", "SWHY-SGB-0417003-01");
-        swapSettle.put("availableDate", LocalDate.of(2022, 6,18));
+        swapSettle.put("availableDate1", LocalDate.of(2022, 6,18));
         swapSettle.put("paymentDate", LocalDate.of(2022, 6,19));
         swapSettle.put("paymentMethod", "直接支付");
         swapSettle.put("beforeSettleNotionalAmount", new BigDecimal("1300"));
@@ -129,8 +133,11 @@ public class FreemarkerTest {
         dataMap.put("party", party);
         dataMap.put("swapContract", swapContract);
         dataMap.put("swapSettle", swapSettle);
+        dataMap.put("swapTrade", swapTrade);
         swapContract.put("trade", trade);
-        return dataMap;
+        Map<String, Object> emailDTOs = new HashMap<>();
+        emailDTOs.put("emailDTOs", dataMap);
+        return emailDTOs;
     }
 
 
